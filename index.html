@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheather app</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter the city name">
+            <div class="icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+           
+        </div>
+        <div class="Wheather">
+            <img src="img2.png" alt="" class="icon2">
+        </div>
+        <h1 class="temp">22'C</h1>
+        <h2 class="city">New york</h2>
+        <div class="details">
+            <div class="col">
+                <img src="img.png" alt="">
+            </div>
+            <p class="humanity">50%</p>
+           <p class="lose">humanity</p>
+
+
+            <!-- <h1 class="temp">22'C</h1>
+            <h2 class="city">New york</h2> -->
+            <div class="details">
+                <div class="col">
+                    <img src="img4.png" alt="">
+                </div>
+                <p class="winds">15km/h</p>
+                <p class="win">winds</p>
+                <!-- <h1 class="winds">15km/h</h1>
+                <h2 class="speed">winds</h2> -->
+
+                <script>
+
+function api(city) {
+    fetch(`http://api.weatherapi.com/v1/current.json?key=6c0cce4a4f1148e9b72182559241309&q=${city}`)
+    .then(res => res.json())
+    .then(data => 
+    {
+        
+        console.log(city, data); 
+
+    
+        document.querySelector(".city").innerHTML = data.location.name;
+        document.querySelector(".temp").innerHTML = `${data.current.temp_c}°C`;
+        document.querySelector(".humanity").innerHTML = `${data.current.humidity}%`;
+        document.querySelector(".winds").innerHTML = `${data.current.wind_kph} km/h`;
+
+        
+        const weatherCondition = data.current.condition.text.toLowerCase(); 
+        const weatherIconElement = document.querySelector(".Wheather img");
+
+        if (weatherCondition.includes("cloud")) 
+        {
+            weatherIconElement.src = "cloud-icon.png"; 
+        } else if (weatherCondition.includes("rain"))
+         {
+            weatherIconElement.src = "Rain-icon.png"; 
+        } else if (weatherCondition.includes("clear") || weatherCondition.includes("sunny")) 
+        {
+            weatherIconElement.src = "sun-icon.png"; 
+        } else if (weatherCondition.includes("snow"))
+         {
+            weatherIconElement.src = "snow-icon.png"; 
+        } else {
+            weatherIconElement.src = "img2.png"; 
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching data:", error);
+    });
+}
+
+
+const searchbox = document.querySelector(".search input");
+const searchbti = document.querySelector(".icon");
+
+
+searchbti.addEventListener('click', () => {
+    const city = searchbox.value.trim(); 
+    if (city) {
+        api(city); 
+    } else {
+        alert("Please enter a city name!"); 
+    }
+});
+                </script>
+              
+        </div>
+    </div>
+</body>
+</html>
